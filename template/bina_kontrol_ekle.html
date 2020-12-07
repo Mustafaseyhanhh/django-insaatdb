@@ -1,0 +1,83 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<style>
+   .btn span.fa-check {         
+   opacity: 0;        
+   }
+   .btn.active span.fa-check {        
+   opacity: 1;        
+   }
+</style>
+<div class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Belge Ekle</h1>
+         </div>
+         <!-- /.col -->
+         <div class="col-sm-6 buttonmobile">
+            <ol class="breadcrumb float-sm-right">
+            </ol>
+         </div>
+         <!-- /.col -->
+      </div>
+      <!-- /.row -->
+   </div>
+   <!-- /.container-fluid -->
+</div>
+<div class="modal-body">
+   <form action="/binakontrol/eklefuc" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+         <label for="recipient-name" class="control-label">Proje Adı:</label>
+         <select class="form-control " name="projeadi">
+               {%for proje in projeler%}
+               <option value="{{proje.id}}">{{proje.adi}}</option>
+               {%endfor%}
+               </select>
+      </div>
+      <div class="form-group">
+         <label for="recipient-name" class="control-label">Hakkında:</label>
+         <textarea type="text" class="form-control" id="hakkinda" name="hakkinda" placeholder="Hakkında"></textarea>
+      </div>
+
+      <div class="form-group">
+         <label for="recipient-name" class="control-label">Tarih:</label>
+         <div class="span5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih" placeholder="Başlangıç Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+      </div>
+
+         
+      </div>
+      
+      <div class="card-footer bg-white" >
+         <ul class="mailbox-attachments clearfix" id="a">
+            <div class="col-sm-4">
+               <h4>Belge Yükle</h4>
+               <input type="file" name="dosya" id="dosya">
+               <div id="onizleme" style="margin-top:10px;"></div>
+            </div>
+         <hr>
+         </ul>
+
+      </div>
+      <div class="modal-footer">
+         <button type="button" onclick="duplicate()" class="btn btn-danger">Ek Belge +1</button>
+         <a href="/binakontrol/kayitlar" role="button" class="btn btn-secondary">Vazgeç</a>
+         <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+   </form>
+</div>
+<script type="text/javascript">
+   var i = 0;
+   var original = document.getElementById('a');
+   
+   function duplicate() {
+       var clone = original.cloneNode(true); // "deep" clone
+       clone.id = "a" + ++i;
+       // or clone.id = ""; if the divs don't need an ID
+       original.parentNode.appendChild(clone);
+   }
+</script>
+{% endblock %}

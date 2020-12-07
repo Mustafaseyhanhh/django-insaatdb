@@ -1,0 +1,181 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Şantiyeler Rapor</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+			<form method="get" action="/santiyeler/rapor">{% csrf_token %}
+			
+				<div class="row">
+					<div class="col-md-12">
+				  
+					<div class="panel panel-info">
+
+							<div class="panel-body">
+								
+
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Şantiye:</label>
+										<div class="input-group col-sm-10">
+								          <select class="form-control " id="santiye" name="santiye">
+								          	<option value="">Hepsi</option>
+								            {%for i in santiyeler%}
+								          <option value="{{i.id}}">{{i}}</option>
+          									{%endfor%}
+								          </select>
+								        </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Tedarikçi:</label>
+										<div class="input-group col-sm-10">
+								          <select class="form-control " id="tedarik" name="tedarikci">
+								          	<option value="">Hepsi</option>
+								          	{%for i,j in tedarikci%}
+								           	<option value="{{j}}">{{i}}</option>
+								          	{%endfor%}
+								          </select>
+								        </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Malzeme:</label>
+										<div class="input-group col-sm-10">
+								          <select class="form-control " id="malzeme" name="malzeme">
+								          	<option value="">Hepsi</option>
+								            {%for i in malzeme%}
+								          <option value="{{i}}">{{i}}</option>
+          									{%endfor%}
+								          </select>
+								        </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Ekleyen:</label>
+										<div class="input-group col-sm-10">
+								          <select class="form-control " name="ekleyen">
+								          	<option value="">Hepsi</option>
+								            {%for i in yoneticiler%}
+								          <option value="{{i.adi}}">{{i.adi}}</option>
+          									{%endfor%}
+								          </select>
+								        </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Tarih:</label>
+								          <div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih1" placeholder="Başlangıç Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								          </div>
+								          	<div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih2" placeholder="Bitiş Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								      		</div>
+								      	  </div>
+									</div>
+								</div>
+							
+											
+
+									
+								
+							</div>
+						</div><!--/panel panel-info-->
+					
+					</div>
+				</div><!--/row-->
+				<div class="modal-footer">
+				<a href="/portfoy" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         		<button type="submit" class="btn btn-primary">Oluştur</button>
+        </div>
+			</form>
+		<div id="cevap"></div>
+		</div>
+
+
+<script>  
+ $(document).ready(function(){  
+      $('#santiye').change(function(){  
+      	$('#tedarik').empty();
+           var santiye_id = $(this).val();
+           console.log(santiye_id);
+           if (santiye_id==""){
+           	$("#tedarik").append("<option value="+"''"+">Hepsi</option>");
+           }
+           else{
+           	$.ajax({  
+                url:"/santiyeler/rapor/ajaxtedarik",  
+                data:{santiye_id:santiye_id},  
+                success:function(data){
+                		$("#tedarik").append("<option value="+"''"+">Hepsi</option>");
+                		console.log(data);
+                		for (var key in data["tedarikciler"]){
+                			$("#tedarik").append("<option value='" + data["tedarikciler"][key]["id"] + "'>" + data["tedarikciler"][key]["adi"] + "</option>");
+                		}
+                	
+                	
+                     
+                }  
+           }); 
+           }
+            
+      });  
+ });  
+ </script>
+
+ <script>  
+ $(document).ready(function(){  
+      $('#tedarik').change(function(){  
+      	$('#malzeme').empty();
+           var tedarik_id = $(this).val();
+           console.log(tedarik_id);
+           if (tedarik_id==""){
+           	$("#mazleme").append("<option value="+"''"+">Hepsi</option>");
+           }
+           else{
+           	$.ajax({  
+                url:"/santiyeler/rapor/ajaxmalzeme",  
+                data:{tedarik_id:tedarik_id},  
+                success:function(data){
+                		$("#malzeme").append("<option value="+"''"+">Hepsi</option>");
+                		console.log(data);
+                		for (var key in data["malzemeler"]){
+                			$("#malzeme").append("<option value='" + data["malzemeler"][key]["id"] + "'>" + data["malzemeler"][key]["adi"] + "</option>");
+                		}
+                	
+                	
+                     
+                }  
+           }); 
+           }
+            
+      });  
+ });  
+ </script>
+
+
+
+
+{% endblock %}

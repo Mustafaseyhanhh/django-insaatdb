@@ -1,0 +1,241 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Portföy <sup style="font-size: 18px"> Kayıt Ekle</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+			<form method="post" action="/portfoy/eklefuc">{% csrf_token %}
+			
+				<div class="row">
+					<div class="col-md-12">
+				  
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">Müşteri Bilgileri</h3>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Adı Soyadı:</label>
+								<input type="text" class="form-control " name="adisoyadi" placeholder="Adı Soyadı" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Ev Telefonu:</label>
+								<input type="tel" class="form-control " name="telefonev" placeholder="Ev Telefonu" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+								<label for="recipient-name" class="control-label">Cep Telefonu:</label>
+								<input type="tel" class="form-control " name="telefoncep" placeholder="Cep Telefonu" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Meslek:</label>
+								<input type="text" class="form-control " name="meslek" placeholder="Meslek" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Hakkında:</label>
+								<textarea type="text" class="form-control" rows="5" name="hakkinda" placeholder="Hakkında" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')"></textarea>
+							</div>
+						</div>
+				
+							<div class="panel-heading">
+								<h3 class="panel-title">Aradığı Kriter</h3>	
+							</div>
+							<div class="panel-body">
+								
+
+								<div class="form-group">
+									<div class="row">
+									  <label class="col-sm-2">Fiyat Aralığı:</label>
+									  <div class="col-sm-5">
+										<input type="text" class="form-control" name="minFiyat" id="minFiyat" placeholder="Minimum" required="" autofocus="">
+									  </div>
+									  <div class="col-sm-5">
+										<input type="text" class="form-control" name="maxFiyat" id="maxFiyat" placeholder="Maksimum" required="" autofocus="">
+									  </div>
+									</div>				
+								</div> <!-- /from-group-->
+									
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">İlçe:</label>
+										<div class="input-group col-sm-10">
+										<select class="form-control " name="ilce">
+								          	
+								            {%for i in ilce%}
+								          <option value="{{i}}">{{i}}</option>
+          									{%endfor%}
+								          </select>
+								      </div>
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Oda Sayısı:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+
+												
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="1" style="display:none;">1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="1+1" style="display:none;">1+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="2+1" style="display:none;">2+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="2+2" style="display:none;">2+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="3+1" style="display:none;">3+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="3+2" style="display:none;">3+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+1" style="display:none;">4+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+2" style="display:none;">4+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+3" style="display:none;">4+3
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+4" style="display:none;">4+4
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+1" style="display:none;">5+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+2" style="display:none;">5+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+3" style="display:none;">5+3
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+4" style="display:none;">5+4
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+1" style="display:none;">6+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+2" style="display:none;">6+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+3" style="display:none;">6+3
+													<span class="fa fa-check "></span>
+												</label>
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Emlak Türü:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Daire" style="display:none;">Daire
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Residence" style="display:none;">Residence
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Villa" style="display:none;">Villa
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Bina" style="display:none;">Bina
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="İş Yeri" style="display:none;">İş Yeri
+													<span class="fa fa-check "></span>
+												</label>
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->							
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Satın Alma Türü:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+												<label class="btn btn-default">
+													<input type="radio" autocomplete="off" name="satinalma" value="1" style="display:none;">Yatırımlık
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="radio" autocomplete="off" name="satinalma" value="2" style="display:none;">İkamet
+													<span class="fa fa-check "></span>
+												</label>
+												
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->		
+								
+							</div>
+						</div><!--/panel panel-info-->
+					
+					</div>
+				</div><!--/row-->
+				<div class="modal-footer">
+				<a href="/portfoy" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         		<button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+			</form>
+		<div id="cevap"></div>
+		</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

@@ -1,0 +1,96 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Raporunuz</h1>
+      </div><!-- /.col -->
+     
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Kayıtlar</h3> 
+                <div class="card-tools">
+                 
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    {%for i in baslik%}
+                    <th>{{i}}</th>
+                    {%endfor%}
+                  </tr>
+                  {%for rec in record%}
+                  <tr>
+                    
+                    <td><strong>
+                    {%if rec.tur == 0%}
+                      Medaş
+                      {%elif rec.tur == 1%}
+                      Koski
+                      {%elif rec.tur == 2%}
+                      Enerya
+                      {%endif%}
+                    </strong></td>
+                    <td><strong>{{rec.aboneno}}</strong></td>
+                    <td><strong>{{rec.masraf}}</strong></td>
+                    <td><strong>{{rec.projeadi.adi}}<strong></td>
+         
+                    <td><strong>{{rec.adapafta}}<strong></td>
+
+                  </tr> 
+{%if ayrinti%}
+                <tr>
+                    <td>Adres : </td>
+                    <td colspan="4">
+                    
+
+                         
+                            {{rec.adres}}
+
+                          
+                  </td>
+                </tr>
+                <tr>
+                    <td>Açıklama :</td>
+                    <td colspan="4">
+
+                         
+                             {{rec.aciklama}}
+                          
+                          
+                  </td>
+                </tr>
+                <tr>
+                    <td>Ekleyen :</td>
+                    <td colspan="4">
+
+                          
+                             {{rec.ekleyen.adi}} tarafından {{rec.tarih}} tarihinde eklendi.
+                          
+                  </td>
+                </tr>
+{%endif%}
+        
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+</div>
+
+
+
+{% endblock %}

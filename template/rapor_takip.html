@@ -1,0 +1,100 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Raporunuz</h1>
+      </div><!-- /.col -->
+     
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Kayıtlar</h3> 
+                <div class="card-tools">
+                 
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    {%for i in baslik%}
+                    <th>{{i}}</th>
+                    {%endfor%}
+                  </tr>
+                  {%for rec in record%}
+                  <tr>
+                    
+                    <td><strong>{{rec.daireid.blokid.projeid.adi}} - {{rec.daireid.blokid.adi}} - Daire No: {{rec.daireid.no}}</strong></td>
+                    <td>{{rec.sorun}}</td>
+                    <td>
+{%if rec.durum == 0%}
+                      <button type="button" class="btn btn-danger btn-flat">Devam Ediyor</button>
+       
+                    {%elif rec.durum == 1%}
+                      <button type="button" class="btn btn-info btn-flat">Beklemeye Alındı</button>
+           
+                    {%elif rec.durum == -1%}
+                      <button type="button" class="btn btn-warning btn-flat">Giderildi</button>
+                      
+                    {%endif%}
+
+
+
+
+
+
+                    </td>
+                  </tr> 
+
+                <tr>
+                    <td>Çözüm : </td>
+                    <td colspan="2">
+                    
+
+                         
+                            {{rec.cozumnotu}}
+
+                          
+                  </td>
+                </tr>
+                <tr>
+                    <td>Eklenme :</td>
+                    <td colspan="2">
+
+                         
+                             {{rec.adi}} tarafından {{rec.eklenmetarihi}} tarihinde eklendi.
+                          
+                          
+                  </td>
+                </tr>
+                <tr>
+                    <td>Güncellenme :</td>
+                    <td colspan="2">
+
+                          
+                             Son olarak {{rec.adi}} tarafından {{rec.guncellenmetarihi}} tarihinde güncellendi.
+                          
+                  </td>
+                </tr>
+        
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+</div>
+
+
+
+{% endblock %}

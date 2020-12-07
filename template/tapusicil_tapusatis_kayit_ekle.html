@@ -1,0 +1,91 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Tapu Satışı Ekle</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+<div class="modal-body">
+ <form action="/tapusicil/tapusatis/eklefuc/{{daire.id}}" method="post" id="pForm">
+  {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for="recipient-name" class="control-label">Projeler:</label>
+        <select class="form-control" id="projeler" name="projeler" disabled="">
+          <option value="0">{{daire.blokid.projeid.adi}}</option>
+          
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="recipient-name" class="control-label">Blok:</label>
+        <select class="form-control" id="bloklar" name="bloklar" disabled="">
+          <option value="0">{{daire.blokid.adi}}</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="recipient-name" class="control-label">Daire:</label>
+        <select class="form-control" id="daireler" name="daireler" disabled="">
+          <option value="0">NO : {{daire.no}}</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-12">
+        <label for="recipient-name" class="control-label">Daire Adı (Manuel Giriş):</label>
+        <input type="text" class="form-control " id="daireadi" name="daireadi" placeholder="Daire Adı (Manuel Giriş)" maxlength="100" >
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="recipient-name" class="control-label">Adı Soyadı:</label>
+      <input type="text" class="form-control " id="adisoyadi" name="adisoyadi" placeholder="Adı Soyadı" maxlength="50" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+    </div>
+    
+      <div class="form-group">
+        <label for="recipient-name" class="control-label">Meslek:</label>
+        <input type="text" class="form-control " id="meslek" name="meslek" placeholder="Meslek" maxlength="50" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+      </div>
+      <div class="form-group">
+        <label for="recipient-name" class="control-label">Telefon:</label>
+        <input type="text" class="form-control " id="telefon" name="telefon" placeholder="Telefon" maxlength="17" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+      </div>
+   
+    <div class="form-group">
+      <label for="recipient-name" class="control-label">Adres:</label>
+      <textarea type="text" class="form-control" id="adres" name="adres" placeholder="Adres" maxlength="250" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')"></textarea>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6">
+      <label for="recipient-name" class="control-label">Masrafı:</label>
+      <input type="text" class="form-control " id="masraf" name="masraf" placeholder="Masraf" maxlength="50" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="recipient-name" class="control-label">Tarih:</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datepickertop" name="tarih" placeholder="Tarih" value="13/01/2019" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+      </div> 
+    </div>
+    <div class="modal-footer">
+        <a href="/satis/projeler/duzenle/{{daire.blokid.projeid.id}}/{{daire.blokid.id}}/{{daire.no}}" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+  </form>  
+</div>
+
+
+
+
+{% endblock %}

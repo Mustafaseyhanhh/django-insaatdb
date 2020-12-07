@@ -1,0 +1,271 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Daire Düzenle<sup style="font-size: 18px"> {{proje.adi}} {{blok.adi}} bloğu No:{{daire.no}}</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+
+<div class="modal-body">
+<form action="/satis/projeler/duzenle/{{proje.id}}/{{blok.id}}/{{daire.no}}/kaydet" method="post" enctype="multipart/form-data" id="pForm">
+	{% csrf_token %}
+	<div class="col-sm-12">
+
+		<h4>Dairenin Fiyatı: {{daire.fiyat}} TL</h4><br>
+		{%if satis.odenen > 0%}
+		<div class="progress">
+		  <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+		  aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{yuzdelik}}%">
+		   {{satis.odenen}} TL
+		  </div>
+		</div><br>
+		{%endif%}
+
+
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label">T.C. Kimlik No:</label>
+				<input type="text" class="form-control " name="tckimlik" placeholder="T.C. Kimlik No" maxlength="11" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" value="{{satis.tckimlik}}">
+			  </div>
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label uppercase">Adı Soyadı:</label>
+				<input type="text" class="form-control " name="adisoyadi" placeholder="Adı Soyadı" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" value="{{satis.adisoyadi}}">
+			  </div>
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label">Telefon No:</label>
+				<input type="text" class="form-control bfh-phone" name="telefon" placeholder="Telefon No" maxlength="17" value="{{satis.telefon}}">
+			  </div>
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label">Hakkında:</label>
+				<textarea type="text" class="form-control " name="hakkinda" placeholder="Hakkında (Boş Kalabilir)" >{{satis.hakkinda}}</textarea>
+			  </div>
+			  <div class="form-group">
+			  	<label for="recipient-name" class="control-label">Ödediği Tutar:</label>
+			  	{%if satis.odenen == -1%}
+			  	<input type="text" class="form-control" id="odenen" name="odenen" placeholder="Ödenen Tutar (Ör: 377000 veya 377.000)" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen ödenen tutarı sadece rakamlar ile boşluksuz veya nokta koyarak giriniz')"  oninput="setCustomValidity('')" value="" disabled="">
+			  	{%else%}
+				<input type="text" class="form-control" id="odenen" name="odenen" placeholder="Ödenen Tutar (Ör: 377000 veya 377.000)" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen ödenen tutarı sadece rakamlar ile boşluksuz veya nokta koyarak giriniz')"  oninput="setCustomValidity('')" value="{{satis.odenen}}">
+				{%endif%}
+				<div class="checkbox">
+				  <label>
+				  	{%if satis.odenen == -1%}
+					<br><input type="checkbox" value="1" name="rezerve" id="rezerve"  onclick="myFunction()" checked> Rezerve Yap
+					{%else%}
+					<br><input type="checkbox" value="1" name="rezerve" id="rezerve"  onclick="myFunction()"> Rezerve Yap
+				  	{%endif%}
+				  </label>
+				</div>
+			  </div>
+		  </div>
+		
+
+		<div class="card-footer bg-white">
+              <ul class="mailbox-attachments clearfix">
+              	{%if satis.sozlesme%}
+                <li>
+                  <span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span>
+                  <div class="mailbox-attachment-info">
+                    <a href="{{satis.sozlesme.url}}" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i>Sözleşme</a>
+                        <span class="mailbox-attachment-size">
+                          1,245 KB
+                          <a href="{{satis.sozlesme.url}}" class="btn btn-default btn-sm float-right"><i class="fa fa-cloud-download"></i></a>
+                          <a href="/satis/projeler/duzenle/{{satis.id}}/sozlesmesil" class="btn btn-default btn-sm float-right" onclick="return confirm('Bu sözleşmeyi silmek istediğinize emin misiniz ?')">Sil<i class="fa fa-remove"></i></a>
+                        </span>
+                  </div>
+                </li>
+                {%else%}
+
+                 <div class="col-sm-4">
+					<h4>Sözleşme Yükle</h4>
+						<input type="file" name="dosya" id="dosya">
+					<div id="onizleme" style="margin-top:10px;"></div>
+				</div>
+				 {%endif%}
+                
+              </ul>
+            </div>
+
+
+		<div class="modal-footer">
+		{%if satis.odenen == -1%}
+		  <a href="/satis/projeler/duzenle/{{proje.id}}/{{blok.id}}/{{daire.no}}/satisiptal" role="button" class="btn btn-danger" data-dismiss="modal" onclick="return confirm('Bu rezerve işlemini iptal etmek istediğinize emin misiniz ?')">Rezerve iptal</a>
+		{%else%}
+          <a href="/satis/projeler/duzenle/{{proje.id}}/{{blok.id}}/{{daire.no}}/satisiptal" role="button" class="btn btn-warning" data-dismiss="modal" onclick="return confirm('Bu satışı iptal etmek istediğinize emin misiniz ?')">Satışı iptal</a>
+        {%endif%}
+          <a href="/satis/projeler/{{proje.id}}/{{blok.id}}" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Arıza Kayıtlar</h3> 
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    <th>Daire</th>
+                    <th>Sorun</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+
+
+                  </tr>
+                  {%for rec in record%}
+                  <tr>
+                    <td>{{rec.daireid.blokid.projeid.adi}} - {{rec.daireid.blokid.adi}} Blok - Daire No: {{rec.daireid.no}}</td>
+                    <td>{{rec.sorun}}</td>
+                    {%if rec.durum == 0%}
+                    <td>
+                     <div class="btn-group">
+                      <button type="button" class="btn btn-danger btn-flat">Devam Ediyor</button>
+                      <button type="button" class="btn btn-danger btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(67px, 38px, 0px);">
+                        <a class="dropdown-item" href="/takip/arizadevam/{{rec.id}}">Devam Ediyor</a>
+                        <a class="dropdown-item" href="/takip/arizabekle/{{rec.id}}">Beklemeye Alındı</a>
+                        <a class="dropdown-item" href="/takip/arizagider/{{rec.id}}">Giderildi</a>
+                      </div>
+                    </div>
+                    </td>
+                    {%elif rec.durum == 1%}
+                    <td>
+                     <div class="btn-group">
+                      <button type="button" class="btn btn-info btn-flat">Beklemeye Alındı</button>
+                      <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(67px, 38px, 0px);">
+                        <a class="dropdown-item" href="/takip/arizadevam/{{rec.id}}">Devam Ediyor</a>
+                        <a class="dropdown-item" href="/takip/arizabekle/{{rec.id}}">Beklemeye Alındı</a>
+                        <a class="dropdown-item" href="/takip/arizagider/{{rec.id}}">Giderildi</a>
+                      </div>
+                    </div>
+                    </td>
+                    {%elif rec.durum == -1%}
+                    <td>
+                     <div class="btn-group">
+                      <button type="button" class="btn btn-warning btn-flat">Giderildi</button>
+                      <button type="button" class="btn btn-warning btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(67px, 38px, 0px);">
+                        <a class="dropdown-item" href="/takip/arizadevam/{{rec.id}}">Devam Ediyor</a>
+                        <a class="dropdown-item" href="/takip/arizabekle/{{rec.id}}">Beklemeye Alındı</a>
+                        <a class="dropdown-item" href="/takip/arizagider/{{rec.id}}">Giderildi</a>
+                      </div>
+                    </div>
+                    </td>
+                    {%endif%}
+
+                    <td>
+                      <div class="btn-group">
+                        <a href="/takip/duzenle/{{rec.id}}" role="button" class="btn btn-info btn-flat"><i class="fa fa-info-circle"> </i></a>
+                        <a href="/takip/duzenle/{{rec.id}}" role="button" class="btn btn-warning btn-flat"><i class="fa fa-edit"></i></a>
+                        <a href="/takip/arizasil/{{rec.id}}" role="button" class="btn btn-danger btn-flat" onclick="return confirm('Bu arızayı silmek istediğinize emin misiniz ?')"><i class="fa fa-remove"></i></a>
+                        {%if rec.resim%}
+                        <a href="{{rec.resim.url}}" role="button" class="btn btn-default btn-flat"><i class="fa fa-picture-o "></i></a>
+                        {%endif%}
+                      </div>
+                    </td>
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+        <div class="modal-footer">
+          <a href="/takip/olustur/{{proje.id}}/{{blok.id}}/{{daire.no}}" role="button" class="btn btn-danger">Arıza kaydı ekle</a>
+        </div>
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Tapu Satışı</h3> 
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    <th>Daire</th>
+                    <th>Ad Soyad</th>
+                    <th>Meslek</th>
+                    <th>Telefon</th>
+                    <th>Masraf</th>
+                    <th>İşlem</th>
+                  </tr>
+                  {%for rec in tapu%}
+                  <tr>
+                    <td>{{rec.daireid.blokid.projeid.adi}} - {{rec.daireid.blokid.adi}} - No : {{rec.daireid.no}}</td>
+                    <td>{{rec.adisoyadi}}</td>
+                    <td>{{rec.meslek}}</td>
+                    <td>{{rec.telefon}}</td>
+                    <td>{{rec.masraf}}</td>
+                    <td>
+                      <div class="btn-group">
+                        <a href="/tapusicil/tapusatis/duzenle/{{rec.daireid.id}}" role="button" class="btn btn-info btn-flat"><i class="fa fa-info-circle"> </i></a>
+                        <a href="/tapusicil/tapusatis/duzenle/{{rec.daireid.id}}" role="button" class="btn btn-warning btn-flat"><i class="fa fa-edit"></i></a>
+                        <a href="/takip/arizasil/{{rec.id}}" role="button" class="btn btn-danger btn-flat" onclick="return confirm('Bu arızayı silmek istediğinize emin misiniz ?')"><i class="fa fa-remove"></i></a>
+                      </div>
+                    </td>
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+        <div class="modal-footer">
+          {%if tapu%}
+          <a href="/tapusicil/tapusatis/duzenle/{{daire.id}}" role="button" class="btn btn-warning">Tapu Satışı Düzenle</a>
+          {%else%}
+          <a href="/tapusicil/tapusatis/ekle/{{daire.id}}" role="button" class="btn btn-warning">Tapu Satışı</a>
+          {%endif%}
+        </div>
+</div>
+<script>
+function myFunction() {
+  var checkBox = document.getElementById("rezerve");
+  if (checkBox.checked == true){
+    document.getElementById("odenen").disabled = true;
+    document.getElementById("odenen").value="";
+  } else {
+    document.getElementById("odenen").disabled = false;
+    
+
+  }
+}
+</script>
+
+{% endblock %}

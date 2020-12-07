@@ -1,0 +1,101 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {          
+  opacity: 0;       
+}
+.btn.active span.fa-check {       
+  opacity: 1;       
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Malzeme Düzenle <sup style="font-size: 18px"> {{malzeme.santiyeid.adi}}</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+    
+
+
+      <form method="POST" action="/santiyeler/malzemeler/duzenlefuc/{{malzeme.id}}">{% csrf_token %}
+      <input class="hide" type="text" name="hide" value="id24" id="hide">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Şantiye:</label>
+          <select class="form-control" id="santiyeid" name="santiyeid" disabled="">          
+            <option value="{{malzeme.santiyeid.id}}">{{malzeme.santiyeid.adi}}</option>
+          </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Tarih:</label>
+          <div class="input-group date" data-provide="datepicker" >
+            <input type="text" class="form-control" id="datepickertop" name="tarih" placeholder="Tarih" value="{{malzeme.tarih}}" disabled="">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+          </div>   
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Fatura No:</label>
+          <input type="text" class="form-control" id="faturano" name="faturano" placeholder="Fatura Numarası" maxlength="50" value="{{malzeme.faturano}}">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">İrsaliye No:</label>
+          <input type="text" class="form-control " id="irsaliyeno" name="irsaliyeno" placeholder="İrsaliye Numarası" maxlength="50" value="{{malzeme.irsaliyeno}}">
+          </div>
+        </div>
+      </div>
+        <div class="form-group">
+        <label for="recipient-name" class="control-label">Tedarikçi:</label>
+        <input type="text" class="form-control " id="tedarikci" name="tedarikci" placeholder="Tedarikçi Firma" value="{{malzeme.tedarikci}}">
+        </div>
+        <div id="malzemeler">
+          <div class="row" id="a" >
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Malzeme Adı:</label>
+            <input type="text" class="form-control " id="malzemeadi" name="malzemeadi" placeholder="Malzeme Adı" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')" value="{{malzeme.malzemeadi}}">
+            </div>
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Malzeme Miktarı:</label>
+            <input type="text" class="form-control " id="malzememiktari" name="malzememiktari" placeholder="Malzeme Miktarı" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')" value="{{malzeme.malzememiktari|to_miktar}}">
+            </div>
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Türü</label>
+            <select class="form-control" id="malzememiktari2" name="malzememiktari2" disabled="">
+              
+              <option value="">Diğer</option>
+             
+            </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+        <a href="/santiyeler/malzemeler/silid/{{malzeme.id}}" role="button" class="btn btn-danger" data-dismiss="modal" onclick="return confirm('Bu malzemeyi silmek istediğinize emin misiniz ?')">Malzeme sil</a>
+        <a href="/santiyeler/malzemeler" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+
+
+
+
+{% endblock %}

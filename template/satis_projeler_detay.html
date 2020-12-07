@@ -1,0 +1,166 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Proje Detayları<sup style="font-size: 18px"> {{pid.adi}}</sup></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <a href="/satis/projeler/blokekle/{{pid.id}}" class="btn btn-primary" role="button">Blok Ekle  <i class="fa fa-plus"></i></a>
+                        <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#ekleModal" style="min-width:55%;">Ruhsat Ekle <i class="fa fa-plus"></i></button>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<div class="row">
+	{%for i in pidblok%}
+	<div class="col-md-6">
+		{%if i.id == num%}
+		<div class="card card-primary card-outline direct-chat direct-chat-primary">
+		{%else%}
+		<div class="card card-primary card-outline direct-chat direct-chat-primary collapsed-card">
+		{%endif%}
+		  <div class="card-header">
+
+		    <h3 class="card-title">{{i.adi}}</h3>
+
+		    <div class="card-tools">
+		      <span data-toggle="tooltip" title="11 kat 2 daire" class="badge bg-danger">{{i.katsayisi}}x{{i.birkattakidairesayisi}}</span>
+		      <span data-toggle="tooltip"  class="badge bg-danger">{{i.odasayisi}}</span>
+		      <span data-toggle="tooltip"  class="badge bg-danger">{{i.metrekare}} m&sup2;</span>
+		      <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+		      </button>
+		      
+		    </div>
+		  </div>
+		  <!-- /.card-header -->
+		  {%if i.id == num%}
+		  <div class="card-footer" style="display: blok;">
+		  {%else%}
+		  <div class="card-footer" style="display: none;">
+		  {%endif%} 
+		  <button type="button" class="btn btn-block btn-primary btn-flat" data-toggle="modal" data-target="#ekleDaireModal" value="{{i.id}}" onClick="reply_click(this.value)">Daire Ekle <i class="fa fa-plus"></i></button>
+		  <a href="/satis/projeler/duzenle/{{pid.id}}/{{i.id}}" class="btn btn-block btn-warning btn-flat" role="button">Blok Düzenle <i class="fa fa-edit"></i></a><br>
+		    <form action="#" method="post">
+		      <div class="row">
+		      	{%for x in pidblokdaire%}
+		      	{%for y in x%}
+
+		      	{%if i.id == y.blokid%}
+		      	{%if y.odenen >= 0%}
+
+
+										      	<div class="col-sm-6">
+										            <!-- small card -->
+										            <div class="small-box bg-warning">
+										              <div class="inner">
+										                <h1><sup style="font-size: 20px">NO:</sup>{{y.daireno}}</h1>
+										                <p>{{y.fiyat}}---{{y.odenen}}</p>
+										              </div>
+										              <div class="icon">
+										                <i class="ion ion-stats-bars"></i>
+										              </div>
+										              <a href="/satis/projeler/duzenle/{{pid.id}}/{{i.id}}/{{y.daireno}}" class="small-box-footer">
+										                Daire Düzenle <i class="fa fa-arrow-circle-right"></i>
+										              </a>
+										            </div>
+										        </div>
+				{%elif y.odenen == -1%}
+												<div class="col-sm-6">
+										            <!-- small card -->
+										            <div class="small-box bg-danger">
+										              <div class="inner">
+										                <h1><sup style="font-size: 20px">NO:</sup>{{y.daireno}}</h1>
+										                <p>{{y.fiyat}}---{{y.odenen}}</p>
+										              </div>
+										              <div class="icon">
+										                <i class="ion ion-stats-bars"></i>
+										              </div>
+										              <a href="/satis/projeler/duzenle/{{pid.id}}/{{i.id}}/{{y.daireno}}" class="small-box-footer">
+										                Daire Düzenle <i class="fa fa-arrow-circle-right"></i>
+										              </a>
+										            </div>
+										        </div>
+				{%else%}
+												<div class="col-sm-6">
+										            <!-- small card -->
+										            <div class="small-box bg-success">
+										              <div class="inner">
+										                <h1><sup style="font-size: 20px">NO:</sup>{{y.daireno}}</h1>
+										                <p>{{y.fiyat}}---{{y.odenen}}</p>
+										              </div>
+										              <div class="icon">
+										                <i class="ion ion-stats-bars"></i>
+										              </div>
+										              <a href="/satis/projeler/duzenle/{{pid.id}}/{{i.id}}/{{y.daireno}}" class="small-box-footer">
+										                Daire Düzenle <i class="fa fa-arrow-circle-right"></i>
+										              </a>
+										            </div>
+										        </div>
+				{%endif%}
+
+		        {%endif%}
+		        {%endfor%}
+		        {%endfor%}
+		  		<!-- /.end block-->
+		      </div>
+		    </form>
+		  </div>
+		  <!-- /.card-footer-->
+		</div>
+	</div>
+	{%endfor%}
+</div>
+
+
+<!-- Modal Daire EKLE -->
+<div class="modal fade" id="ekleDaireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Daire Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/satis/projeler/blok/{{pid.id}}/daireeklefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+		<input class="hide" type="text" name="hide" value="id24" id="hide">
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label">Daire No:</label>
+				<select class="form-control" name="daireno">
+				{% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+				  <option value="{{forloop.counter}}">{{forloop.counter}}</option>
+				{%endfor%}
+				</select>
+			  </div>
+			  <div class="form-group">
+				<label for="recipient-name" class="control-label">Fiyat (TL):</label>
+				<input type="text" class="form-control " name="fiyat" placeholder="Fiyat (Ör: 377000 veya 377.000)" required="" autofocus="" oninvalid="this.setCustomValidity('Lütfen Daire Fiyatı Giriniz')"  oninput="setCustomValidity('')">
+			  </div>
+		</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+function reply_click(id)
+{
+	document.getElementById("hide").value = id;
+	document.getElementById("hide").value = id;
+}
+</script>
+
+{% endblock %}

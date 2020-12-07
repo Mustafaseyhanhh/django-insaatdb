@@ -1,0 +1,108 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Abonelik Rapor</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+			<form method="get" action="/abonelik/rapor">{% csrf_token %}
+			
+				<div class="row">
+					<div class="col-md-12">
+				  
+					<div class="panel panel-info">
+
+							<div class="panel-body">
+								
+
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Abonelik Türü:</label>
+										<div class="input-group col-sm-10">
+								               <div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+								                  <label class="btn btn-default " id="btn1">
+								                  <input type="checkbox" autocomplete="off" name="tur1" value="0" style="display:none;">Medaş
+								                  <span class="fa fa-check "></span>
+								                  </label>
+								                  <label class="btn btn-default" id="btn2">
+								                  <input type="checkbox" autocomplete="off" name="tur2" value="1" style="display:none;">Koski
+								                  <span class="fa fa-check "></span>
+								                  </label>
+								                  <label class="btn btn-default" id="btn3">
+								                  <input type="checkbox" autocomplete="off" name="tur3" value="2" style="display:none;">Enerya
+								                  <span class="fa fa-check "></span>
+								                  </label>
+								            </div>
+								        </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Arıza Durumu:</label>
+										<div class="input-group col-sm-10">
+											<div class="custom-control custom-checkbox">
+											  <input type="checkbox" class="custom-control-input" name="ayrinti" id="defaultChecked2">
+											  <label class="custom-control-label" for="defaultChecked2">Ayrıntıları Göster</label>
+											</div>
+								        </div>
+								        <!-- Default checked -->
+
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Tarih:</label>
+								          <div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih1" placeholder="Başlangıç Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								          </div>
+								          	<div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih2" placeholder="Bitiş Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								      		</div>
+								      	  </div>
+									</div>
+									
+								
+							
+											
+
+									
+								
+							</div>
+						</div><!--/panel panel-info-->
+					
+					</div>
+				</div><!--/row-->
+				<div class="modal-footer">
+				<a href="/portfoy" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         		<button type="submit" class="btn btn-primary">Oluştur</button>
+        </div>
+			</form>
+		<div id="cevap"></div>
+		</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

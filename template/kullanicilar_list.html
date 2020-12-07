@@ -1,0 +1,346 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Kullanıcılar</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <a href="/kullanicilar/ekle" class="btn btn-primary" role="button">Ekle  <i class="fa fa-plus"></i></a>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Kayıtlar</h3> 
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody>
+                  
+                  <tr>
+                    <th >Ad</th>
+                    <th colspan="13">Yetkiler</th>
+                  </tr>
+
+                  {%for rec in record%}
+                  
+                  <tr>
+                    <th></th>
+                    <th>Satış</th>
+                    <th>Portföy</th>
+                    <th>Şantiye</th>
+                    <th>Takip</th>
+                    <th>Tapu Sicil</th>
+                    <th>Abonelik</th>
+                    <th>Halkla İlişkiler</th>
+                    <th>Belge</th>
+                    <th>Maliyet</th>
+                    <th>Bina Kontrol</th>
+                    <th colspan="3">Kullanıcı İşlemleri</th>
+
+                    
+                  </tr>
+                  
+                  
+                  <tr>
+                    <th >{{rec.adi}}</th>
+                    <th colspan="13">
+                      
+                    </th>
+
+                  </tr>
+                  {%if rec.durum%}
+                  <tr>
+
+                    <td>
+                      Ekle
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projeekle%}success{%else%}danger{%endif%} btn-flat" title="Proje Ekle"><i class="fa {%if rec.projeekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoyekle%}success{%else%}danger{%endif%} btn-flat" title="Portföy Ekle"><i class="fa {%if rec.portfoyekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyeekle%}success{%else%}danger{%endif%} btn-flat" title="Şantiye Ekle"><i class="fa {%if rec.santiyeekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydiekle%}success{%else%}danger{%endif%} btn-flat" title="Takip Ekle"><i class="fa {%if rec.arizakaydiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilekle%}success{%else%}danger{%endif%} btn-flat" title="Tapu Sicil Ekle"><i class="fa {%if rec.tapusicilekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.abonelikekle%}success{%else%}danger{%endif%} btn-flat" title="Abonelik Ekle"><i class="fa {%if rec.abonelikekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilerekle%}success{%else%}danger{%endif%} btn-flat" title="Halkla İlişkiler Ekle"><i class="fa {%if rec.halklailiskilerekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydiekle%}success{%else%}danger{%endif%} btn-flat" title="Belge Ekle"><i class="fa {%if rec.belgekaydiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetekle%}success{%else%}danger{%endif%} btn-flat" title="Maliyet Ekle"><i class="fa {%if rec.maliyetekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolekle%}success{%else%}danger{%endif%} btn-flat" title="Bina Kontrol Ekle"><i class="fa {%if rec.binakontrolekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticiekle%}success{%else%}danger{%endif%} btn-flat" title="Kullanıcı Ekle"><i class="fa {%if rec.yoneticiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr>
+                  <tr>
+                    <td>
+                      Düzenle
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projeduzenle%}success{%else%}danger{%endif%} btn-flat" title="Proje Düzenle"><i class="fa {%if rec.projeduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoyduzenle%}success{%else%}danger{%endif%} btn-flat" title="Portföy Düzenle"><i class="fa {%if rec.portfoyduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyeduzenle%}success{%else%}danger{%endif%} btn-flat" title="Şantiye Düzenle"><i class="fa {%if rec.santiyeduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydiduzenle%}success{%else%}danger{%endif%} btn-flat" title="Takip Düzenle"><i class="fa {%if rec.arizakaydiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilduzenle%}success{%else%}danger{%endif%} btn-flat" title="Tapu Sicil Düzenle"><i class="fa {%if rec.tapusicilduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.abonelikduzenle%}success{%else%}danger{%endif%} btn-flat" title="Abonelik Düzenle"><i class="fa {%if rec.abonelikduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilerduzenle%}success{%else%}danger{%endif%} btn-flat" title="Halkla İlişkiler Düzenle"><i class="fa {%if rec.halklailiskilerduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydiduzenle%}success{%else%}danger{%endif%} btn-flat" title="Belge Düzenle"><i class="fa {%if rec.belgekaydiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetduzenle%}success{%else%}danger{%endif%} btn-flat" title="Maliyet Düzenle"><i class="fa {%if rec.maliyetduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolduzenle%}success{%else%}danger{%endif%} btn-flat" title="Bina Kontrol Düzenle"><i class="fa {%if rec.binakontrolduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticiduzenle%}success{%else%}danger{%endif%} btn-flat" title="Kullanıcı Düzenle"><i class="fa {%if rec.yoneticiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr> 
+                  <tr>
+                    <td>
+                      Sil
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projesil%}success{%else%}danger{%endif%} btn-flat" title="Proje Sil"><i class="fa {%if rec.projesil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoysil%}success{%else%}danger{%endif%} btn-flat" title="Portföy Sil"><i class="fa {%if rec.portfoysil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyesil%}success{%else%}danger{%endif%} btn-flat" title="Şantiye Sil"><i class="fa {%if rec.santiyesil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydisil%}success{%else%}danger{%endif%} btn-flat" title="Takip Sil"><i class="fa {%if rec.arizakaydisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilsil%}success{%else%}danger{%endif%} btn-flat" title="Tapu Sicil Sil"><i class="fa {%if rec.tapusicilsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.aboneliksil%}success{%else%}danger{%endif%} btn-flat" title="Abonelik Sil"><i class="fa {%if rec.aboneliksil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilersil%}success{%else%}danger{%endif%} btn-flat" title="Halkla İlişkiler Sil"><i class="fa {%if rec.halklailiskilersil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydisil%}success{%else%}danger{%endif%} btn-flat" title="Belge Sil"><i class="fa {%if rec.belgekaydisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetsil%}success{%else%}danger{%endif%} btn-flat" title="Maliyet Sil"><i class="fa {%if rec.maliyetsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolsil%}success{%else%}danger{%endif%} btn-flat" title="Bina Kontrol Sil"><i class="fa {%if rec.binakontrolsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticisil%}success{%else%}danger{%endif%} btn-flat" title="Kullanıcı Sil"><i class="fa {%if rec.yoneticisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr>
+                  {%else%}
+                  <tr>
+
+                    <td>
+                      Ekle
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projeekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Proje Ekle"><i class="fa {%if rec.projeekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoyekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Portföy Ekle"><i class="fa {%if rec.portfoyekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyeekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Şantiye Ekle"><i class="fa {%if rec.santiyeekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydiekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Takip Ekle"><i class="fa {%if rec.arizakaydiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Tapu Sicil Ekle"><i class="fa {%if rec.tapusicilekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.abonelikekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Abonelik Ekle"><i class="fa {%if rec.abonelikekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilerekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Halkla İlişkiler Ekle"><i class="fa {%if rec.halklailiskilerekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydiekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Belge Ekle"><i class="fa {%if rec.belgekaydiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Maliyet Ekle"><i class="fa {%if rec.maliyetekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Bina Kontrol Ekle"><i class="fa {%if rec.binakontrolekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticiekle%}secondary{%else%}secondary{%endif%} btn-flat" title="Kullanıcı Ekle"><i class="fa {%if rec.yoneticiekle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr>
+                  <tr>
+                    <td>
+                      Düzenle
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projeduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Proje Düzenle"><i class="fa {%if rec.projeduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoyduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Portföy Düzenle"><i class="fa {%if rec.portfoyduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyeduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Şantiye Düzenle"><i class="fa {%if rec.santiyeduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydiduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Takip Düzenle"><i class="fa {%if rec.arizakaydiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Tapu Sicil Düzenle"><i class="fa {%if rec.tapusicilduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.abonelikduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Abonelik Düzenle"><i class="fa {%if rec.abonelikduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilerduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Halkla İlişkiler Düzenle"><i class="fa {%if rec.halklailiskilerduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydiduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Belge Düzenle"><i class="fa {%if rec.belgekaydiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Maliyet Düzenle"><i class="fa {%if rec.maliyetduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Bina Kontrol Düzenle"><i class="fa {%if rec.binakontrolduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticiduzenle%}secondary{%else%}secondary{%endif%} btn-flat" title="Kullanıcı Düzenle"><i class="fa {%if rec.yoneticiduzenle%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr> 
+                  <tr>
+                    <td>
+                      Sil
+                    </td>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.projesil%}secondary{%else%}secondary{%endif%} btn-flat" title="Proje Sil"><i class="fa {%if rec.projesil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.portfoysil%}secondary{%else%}secondary{%endif%} btn-flat" title="Portföy Sil"><i class="fa {%if rec.portfoysil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.santiyesil%}secondary{%else%}secondary{%endif%} btn-flat" title="Şantiye Sil"><i class="fa {%if rec.santiyesil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.arizakaydisil%}secondary{%else%}secondary{%endif%} btn-flat" title="Takip Sil"><i class="fa {%if rec.arizakaydisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.tapusicilsil%}secondary{%else%}secondary{%endif%} btn-flat" title="Tapu Sicil Sil"><i class="fa {%if rec.tapusicilsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.aboneliksil%}secondary{%else%}secondary{%endif%} btn-flat" title="Abonelik Sil"><i class="fa {%if rec.aboneliksil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.halklailiskilersil%}secondary{%else%}secondary{%endif%} btn-flat" title="Halkla İlişkiler Sil"><i class="fa {%if rec.halklailiskilersil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.belgekaydisil%}secondary{%else%}secondary{%endif%} btn-flat" title="Belge Sil"><i class="fa {%if rec.belgekaydisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.maliyetsil%}secondary{%else%}secondary{%endif%} btn-flat" title="Maliyet Sil"><i class="fa {%if rec.maliyetsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th>
+                    <button type="button" class="btn btn-{%if rec.binakontrolsil%}secondary{%else%}secondary{%endif%} btn-flat" title="Bina Kontrol Sil"><i class="fa {%if rec.binakontrolsil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+                    <th colspan="3">
+                    <button type="button" class="btn btn-{%if rec.yoneticisil%}secondary{%else%}secondary{%endif%} btn-flat" title="Kullanıcı Sil"><i class="fa {%if rec.yoneticisil%}fa-check-square-o{%else%}fa-minus-square-o{%endif%}" ></i></button>
+                    </th>
+
+                    
+                  </tr>
+                  {%endif%}
+                  <tr>
+                    <th  colspan="10">İşlem</th>
+                    <th>{%if rec.durum%}
+                      Aktif
+                    {%else%}
+                    Pasif
+                    {%endif%}
+                    </th>
+                    <th >
+                      <div class="btn-group">
+
+                        <a href="/kullanicilar/duzenle/{{rec.id}}" role="button" class="btn btn-warning btn-flat"><i class="fa fa-edit"></i></a>
+                       
+                      </div>
+                    </th>
+                  </tr>
+                  {%endfor%}  
+                  
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+
+
+{% endblock %}

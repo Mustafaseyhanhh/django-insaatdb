@@ -1,0 +1,544 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style type="text/css">
+   
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  float:right;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input.default:checked + .slider {
+  background-color: #444;
+}
+input.primary:checked + .slider {
+  background-color: #2196F3;
+}
+input.success:checked + .slider {
+  background-color: #8bc34a;
+}
+input.info:checked + .slider {
+  background-color: #3de0f5;
+}
+input.warning:checked + .slider {
+  background-color: #FFC107;
+}
+input.danger:checked + .slider {
+  background-color: #f44336;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Kullanıcı Ekle<sup style="font-size: 18px"> {{pid}}</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+<div class="modal-body">
+<form class="module aligned " action="/kullanicilar/duzenlefuc/{{new.id}}" method="post">{% csrf_token %}
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Kullanıcı Bilgileri</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="form-group">
+            <label for="recipient-name" class="control-label">Adı:</label>
+            <input type="text" class="form-control " id="metrekare" name="adi" placeholder="Adı" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" value="{{new.adi}}">
+           </div>
+   <div class="form-group">
+            <label for="recipient-name" class="control-label">Kullanıcı Adı:</label>
+            <input type="text" class="form-control " id="blokadi" name="kadi" placeholder="Kullanıcı Adı" maxlength="100" required="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')" oninput="setCustomValidity('')" value="{{new.adi}}" >
+           </div>
+  <div class="form-group">
+            <label for="recipient-name" class="control-label">Şifre:</label>
+            <input type="text" class="form-control " id="metrekare" name="sifre" placeholder="Şifre" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" value="***************" disabled="">
+           </div>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-12">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Aktiflik Durumu</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Aktif
+               <label class="switch ">
+               <input type="checkbox" class="success" name="durum" {%if new.durum%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Satış Pazarlama</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Proje Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="projeekle" {%if new.projeekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Proje Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="projeduzenle" {%if new.projeduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Proje Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="projesil" {%if new.projesil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Blok Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="blokekle" {%if new.blokekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Blok Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="blokduzenle" {%if new.blokduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Blok Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="bloksil" {%if new.bloksil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Daire Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="daireekle" {%if new.daireekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Daire Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="daireduzenle" {%if new.daireduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Daire Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="dairesil" {%if new.dairesil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Satış Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="satisekle" {%if new.satisekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Satış Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="satisduzenle" {%if new.satisduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Satış Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="satissil" {%if new.satissil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Şantiye Takip</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Şantiye Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyeekle" {%if new.santiyeekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Şantiye Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyeduzenle" {%if new.santiyeduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Şantiye Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyesil" {%if new.santiyesil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Şantiye Malzeme Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyemalzemeekle" {%if new.santiyemalzemeekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Şantiye Malzeme Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyemalzemeduzenle" {%if new.santiyemalzemeduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Şantiye Malzeme Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="santiyemalzemesil" {%if new.santiyemalzemesil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Müşteri Portföy</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Portföy Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="portfoyekle" {%if new.portfoyekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Portföy Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="portfoyduzenle" {%if new.portfoyduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Portföy Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="portfoysil" {%if new.portfoysil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Arıza Takip</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Arıza Kaydı Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="arizakaydiekle" {%if new.arizakaydiekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Arıza Kaydı Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="arizakaydiduzenle" {%if new.arizakaydiduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Arıza Kaydı Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="arizakaydisil" {%if new.arizakaydisil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Tapu Sicil</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Tapu Sicil Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="tapusicilekle" {%if new.tapusicilekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Tapu Sicil Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="tapusicilduzenle" {%if new.tapusicilduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Tapu Sicil Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="tapusicilsil" {%if new.tapusicilsil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Abonelik</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Abonelik Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="abonelikekle" {%if new.abonelikekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Abonelik Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="abonelikduzenle" {%if new.abonelikduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Abonelik Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="aboneliksil" {%if new.aboneliksil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Halkla İlişkiler</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Halkla İlişkiler Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="halklailiskilerekle" {%if new.halklailiskilerekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Halkla İlişkiler Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="halklailiskilerduzenle" {%if new.halklailiskilerduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Halkla İlişkiler Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="halklailiskilersil" {%if new.halklailiskilersil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Belge Kaydı</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Belge Kaydı Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="belgekaydiekle" {%if new.belgekaydiekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Belge Kaydı Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="belgekaydiduzenle" {%if new.belgekaydiduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Belge Kaydı Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="belgekaydisil" {%if new.belgekaydisil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Maliyet</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Maliyet Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="maliyetekle" {%if new.maliyetekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Maliyet Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="maliyetduzenle" {%if new.maliyetduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Maliyet Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="maliyetsil" {%if new.maliyetsil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Bina Kontrol</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Bina Kontrol Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="binakontrolekle" {%if new.binakontrolekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Bina Kontrol Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="binakontrolduzenle" {%if new.binakontrolduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Bina Kontrol Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="binakontrolsil" {%if new.binakontrolsil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Kullanıcı İşlemleri</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+               Yönetici Ekle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="yoneticiekle" {%if new.yoneticiekle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Yönetici Düzenle
+               <label class="switch ">
+               <input type="checkbox" class="success" name="yoneticiduzenle" {%if new.yoneticiduzenle%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+            <li class="list-group-item">
+               Yönetici Sil
+               <label class="switch ">
+               <input type="checkbox" class="success" name="yoneticisil" {%if new.yoneticisil%}checked=""{%endif%}>
+               <span class="slider"></span>
+               </label>
+            </li>
+         </ul>
+      </div>
+   </div>
+</div>
+ <div class="modal-footer">
+          <a href="/kullanicilar/liste" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+</form>
+</div>
+{% endblock %}

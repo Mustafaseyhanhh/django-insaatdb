@@ -1,0 +1,23 @@
+---------------------------------------------------v_satis
+
+CREATE VIEW v_satis AS SELECT UUID() AS id, insaatWeb_projeler.id AS projeid, insaatWeb_projeler.adi AS projeadi, insaatWeb_bloklar.id AS blokid, insaatWeb_bloklar.adi AS blokadi, insaatWeb_daireler.id AS daireid, insaatWeb_daireler.no AS daireno, insaatWeb_daireler.fiyat, insaatWeb_satis.id AS satisid, insaatWeb_satis.odenen, insaatWeb_satis.adisoyadi, insaatWeb_satis.hakkinda, insaatWeb_satis.tckimlik, insaatWeb_satis.telefon FROM insaatWeb_daireler LEFT OUTER JOIN insaatWeb_satis ON insaatWeb_daireler.id = insaatWeb_satis.daireid_id RIGHT OUTER JOIN insaatWeb_bloklar ON insaatWeb_daireler.blokid_id = insaatWeb_bloklar.id RIGHT OUTER JOIN insaatWeb_projeler ON insaatWeb_bloklar.projeid_id = insaatWeb_projeler.id
+
+---------------------------------------------------v_tapu_satis --------------------------------------------------
+
+CREATE VIEW v_tapu_satis AS SELECT UUID() AS id, CONCAT(insaatWeb_projeler.adi , insaatWeb_bloklar.adi  , insaatWeb_daireler.no) AS daire, insaatWeb_yonetici.adi AS ekleyen, insaatWeb_tapu_satis.id AS tapu_satis_id, insaatWeb_tapu_satis.adisoyadi, insaatWeb_tapu_satis.meslek, insaatWeb_tapu_satis.adres, insaatWeb_tapu_satis.telefon, insaatWeb_tapu_satis.masraf, insaatWeb_tapu_satis.tarih, insaatWeb_tapu_satis.daireid_id FROM insaatWeb_projeler INNER JOIN insaatWeb_bloklar ON insaatWeb_projeler.id = insaatWeb_bloklar.projeid_id INNER JOIN insaatWeb_daireler ON insaatWeb_bloklar.id = insaatWeb_daireler.blokid_id RIGHT OUTER JOIN insaatWeb_tapu_satis ON insaatWeb_daireler.id = insaatWeb_tapu_satis.daireid_id LEFT OUTER JOIN insaatWeb_yonetici ON insaatWeb_tapu_satis.ekleyen_id = insaatWeb_yonetici.id
+
+---------------------------------------------------v_detay
+
+CREATE VIEW v_detay AS SELECT UUID() AS id, insaatWeb_projeler.id AS projeid, insaatWeb_projeler.adi AS projeadi, insaatWeb_bloklar.id AS blokid, insaatWeb_bloklar.adi AS blokadi, insaatWeb_bloklar.katsayisi, insaatWeb_bloklar.birkattakidairesayisi, insaatWeb_bloklar.odasayisi, insaatWeb_bloklar.metrekare, insaatWeb_bloklar.blokkenarsol, insaatWeb_bloklar.blokkenarsag, insaatWeb_bloklar.blokkenaryukari, insaatWeb_bloklar.blokkenarasagi FROM insaatWeb_projeler LEFT OUTER JOIN insaatWeb_bloklar ON insaatWeb_projeler.id = insaatWeb_bloklar.projeid_id
+
+---------------------------------------------------v_ariza_takip -------------------------------------------------
+
+CREATE VIEW v_ariza_takip AS SELECT UUID() AS id, insaatWeb_ariza_takip.id AS ariza_takip_id, insaatWeb_ariza_takip.durum, insaatWeb_ariza_takip.sorun, insaatWeb_yonetici.adi AS ekleyen, insaatWeb_ariza_takip.eklenmetarihi, yonetici_1.adi AS guncelleyen, insaatWeb_ariza_takip.guncellenmetarihi, CONCAT(insaatWeb_projeler.adi , ' - ' , insaatWeb_bloklar.adi , ' -  Daire No: ' , insaatWeb_daireler.no) AS title, insaatWeb_satis.adisoyadi, insaatWeb_ariza_takip.cozumNotu, insaatWeb_projeler.id AS projeid, insaatWeb_bloklar.id AS blokid, insaatWeb_ariza_takip.daireid_id FROM insaatWeb_projeler INNER JOIN insaatWeb_bloklar ON insaatWeb_projeler.id = insaatWeb_bloklar.projeid_id INNER JOIN insaatWeb_daireler ON insaatWeb_bloklar.id = insaatWeb_daireler.blokid_id RIGHT OUTER JOIN insaatWeb_ariza_takip ON insaatWeb_daireler.id = insaatWeb_ariza_takip.daireid_id LEFT OUTER JOIN insaatWeb_yonetici AS yonetici_1 ON insaatWeb_ariza_takip.guncelleyen = yonetici_1.id LEFT OUTER JOIN insaatWeb_yonetici ON insaatWeb_ariza_takip.ekleyen_id = insaatWeb_yonetici.id LEFT OUTER JOIN insaatWeb_satis ON insaatWeb_daireler.id = insaatWeb_satis.daireid_id
+
+---------------------------------------------------v_detay_2
+
+CREATE VIEW v_detay_2 AS SELECT UUID() AS id, insaatWeb_daireler.id AS daireid, insaatWeb_daireler.blokid_id, insaatWeb_daireler.fiyat, insaatWeb_satis.id AS satisid, insaatWeb_satis.odenen, insaatWeb_daireler.no AS daireno, insaatWeb_satis.adisoyadi FROM insaatWeb_daireler LEFT OUTER JOIN insaatWeb_satis ON insaatWeb_daireler.id = insaatWeb_satis.daireid_id
+
+---------------------------------------------------v_santiye_malzemeler
+
+CREATE VIEW v_santiye_malzemeler AS SELECT UUID() AS id, insaatWeb_santiye_takip.id AS santiye_takip_id, insaatWeb_yonetici.adi AS editoradi, insaatWeb_santiyeler.adi AS santiyeadi, insaatWeb_santiyeler.id AS santiyeid, insaatWeb_santiye_takip.malzemeadi, insaatWeb_santiye_takip.malzememiktari, insaatWeb_santiye_takip.tarih, insaatWeb_santiye_takip.tedarikci, insaatWeb_santiye_takip.irsaliyeno, insaatWeb_santiye_takip.faturano FROM insaatWeb_santiye_takip LEFT OUTER JOIN insaatWeb_yonetici ON insaatWeb_santiye_takip.editorid_id = insaatWeb_yonetici.id LEFT OUTER JOIN insaatWeb_santiyeler ON insaatWeb_santiye_takip.santiyeid_id = insaatWeb_santiyeler.id

@@ -1,0 +1,92 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Halkla İlişkiler Rapor</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+			<form method="get" action="/halklailiskiler/rapor">{% csrf_token %}
+			
+				<div class="row">
+					<div class="col-md-12">
+				  
+					<div class="panel panel-info">
+
+							<div class="panel-body">
+								
+
+								<div class="form-group">
+									<div class="row">
+									  <label class="col-sm-2">Gelen Kişi:</label>
+									  <div class="col-sm-10">
+										<input type="text" class="form-control" name="gelen" id="maxFiyat" placeholder="Gelen Kişi (Boş Kalabilir)"  autofocus="">
+									  </div>
+									</div>				
+								</div> <!-- /from-group-->
+								<div class="form-group">
+									<div class="row">
+									  <label class="col-sm-2">Görüştüğü Kişi:</label>
+									  <div class="col-sm-10">
+										<input type="text" class="form-control" name="gorustugu" id="maxFiyat" placeholder="Görüştüğü Kişi (Boş Kalabilir)"  autofocus="">
+									  </div>
+									</div>				
+								</div> <!-- /from-group-->
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Tarih:</label>
+								          <div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih1" placeholder="Başlangıç Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								          </div>
+								          	<div class="input-group col-sm-5" id="sandbox-container"><input type="text" class="form-control" autocomplete="off" name="tarih2" placeholder="Bitiş Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+								      		</div>
+								      	  </div>
+									</div>
+								</div>
+									
+								
+							
+								
+
+													
+
+									
+								
+							</div>
+						</div><!--/panel panel-info-->
+					
+					</div>
+				</div><!--/row-->
+				<div class="modal-footer">
+				<a href="/portfoy" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         		<button type="submit" class="btn btn-primary">Oluştur</button>
+        </div>
+			</form>
+		<div id="cevap"></div>
+		</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

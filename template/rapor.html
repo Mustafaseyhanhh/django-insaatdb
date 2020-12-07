@@ -1,0 +1,60 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Raporunuz</h1>
+      </div><!-- /.col -->
+     
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Kayıtlar</h3> 
+                <div class="card-tools">
+                 
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    {%for i in baslik%}
+                    <th>{{i}}</th>
+                    {%endfor%}
+                  </tr>
+                  {%for rec in record%}
+                  <tr>
+                    
+                    <td>{{rec.adisoyadi}}</td>
+                    <td>{{rec.telefoncep}}</td>
+                    <td>{{rec.ilce}}</td>
+                    <td>{{rec.fiyataraligimin}} - {{rec.fiyataraligimax}}</td>
+                    <td>{{rec.odasayisi|to_and}}</td>
+                    <td>{{rec.emlakturu|to_and}}</td>
+                    <td>{%if rec.satinalmaturu == 1%}
+                    Yatırımlık
+                    {%else%}
+                    İkamet
+                    {%endif%}</td>
+                   
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style type="text/css">
+   
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  float:right;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input.default:checked + .slider {
+  background-color: #444;
+}
+input.primary:checked + .slider {
+  background-color: #2196F3;
+}
+input.success:checked + .slider {
+  background-color: #8bc34a;
+}
+input.info:checked + .slider {
+  background-color: #3de0f5;
+}
+input.warning:checked + .slider {
+  background-color: #FFC107;
+}
+input.danger:checked + .slider {
+  background-color: #f44336;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Kullanıcı Ekle<sup style="font-size: 18px"> {{pid}}</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+<div class="modal-body">
+<form class="module aligned " action="/kullanicilar/eklefuc" method="post">{% csrf_token %}
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Kullanıcı Bilgileri</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="form-group">
+            <label for="recipient-name" class="control-label">Adı:</label>
+            <input type="text" class="form-control " id="metrekare" name="adi" placeholder="Adı" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" value="{{request.session.adi}}" disabled="">
+           </div>
+   <div class="form-group">
+            <label for="recipient-name" class="control-label">Kullanıcı Adı:</label>
+            <input type="text" class="form-control " id="blokadi" name="kadi" placeholder="Kullanıcı Adı" maxlength="100" required="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')" oninput="setCustomValidity('')" value="{{request.session.kadi}}" disabled="">
+           </div>
+  <div class="form-group">
+            <label for="recipient-name" class="control-label">Şifre:</label>
+            <input type="text" class="form-control " id="metrekare" name="sifre" placeholder="Şifre" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" value="**************" disabled="">
+           </div>
+            </li>
+         </ul>
+      </div>
+   </div>
+  </div>
+</form>
+<form class="module aligned " action="/kullanicilar/profilfuc/{{request.session.id}}" method="post">{% csrf_token %}
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <!-- Default panel contents -->
+         <div class="card-header">Şifre Değiştir</div>
+         <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="form-group">
+            <label for="recipient-name" class="control-label">Yeni Şifre:</label>
+            <input type="text" class="form-control " id="metrekare" name="yenisifre1" placeholder="Yeni Şifre" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" >
+           </div>
+   <div class="form-group">
+            <label for="recipient-name" class="control-label">Yeni Şifre: (Tekrar)</label>
+            <input type="text" class="form-control " id="blokadi" name="yenisifre2" placeholder="Yeni Şifre" maxlength="100" required="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')" oninput="setCustomValidity('')" >
+           </div>
+  <div class="form-group">
+            <label for="recipient-name" class="control-label">Eski Şifre: (Onay)</label>
+            <input type="password" class="form-control " id="metrekare" name="eskisifre" placeholder="Eski Şifre" required="" autofocus="" oninvalid="this.setCustomValidity('Bu alan boş bırakılamaz.')"  oninput="setCustomValidity('')" >
+           </div>
+            </li>
+         </ul>
+      </div>
+   </div>
+  </div>
+
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Şifre Değiştir</button>
+      </div>
+
+</form>
+</div>
+
+
+{% endblock %}

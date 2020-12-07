@@ -1,0 +1,65 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Arıza Kaydı Oluştur</h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+		<form action="/takip/olusturfuc/{{pid.id}}/{{blok.id}}/{{no.no}}" method="post" enctype="multipart/form-data" id="pForm">
+		{% csrf_token %}
+		
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Projeler:</label>
+			<select class="form-control" id="projeler" name="projeler" disabled="">
+			  <option value="0">{{pid.adi}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Blok:</label>
+			<select class="form-control" id="bloklar" name="bloklar" disabled="">
+			  <option value="0">{{blok.adi}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Daire:</label>
+			<select class="form-control" id="daireler" name="daireler" disabled="">
+			  <option value="0">{{no.no}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Sorun:</label>
+			<textarea type="text" class="form-control" name="sorun" placeholder="Lütfen daire ile ilgili sorunu giriniz." required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Çözüm Notu Ekle:</label>
+			<textarea type="text" class="form-control" name="cozumnotu" placeholder="Eklemek istediğiniz bir şey mi var? (İsteğe Bağlı)"></textarea>
+		</div>
+		<div class="card-footer bg-white">
+
+              <ul class="mailbox-attachments clearfix">
+                
+                 <div class="col-sm-4">
+					<h4>Fotoğraf Yükle</h4>
+						<input type="file" name="dosya" id="dosya">
+					<div id="onizleme" style="margin-top:10px;"></div>
+				</div>
+                
+              </ul>
+            </div>
+            <div class="modal-footer">
+          <a href="/satis/projeler/{{pid.id}}/{{blok.id}}" role="button" class="btn btn-secondary">Vazgeç</a>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+		</form>
+		</div>
+
+{% endblock %}

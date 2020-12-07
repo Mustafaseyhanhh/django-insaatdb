@@ -1,0 +1,128 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Rapor Oluştur <sup style="font-size: 18px"> Satış</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+
+		<form method="get" action="/satis/rapor">{% csrf_token %}
+			
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Projeler:</label>
+			<select class="form-control" id="projeler" name="projeler">
+			  <option value="">Hepsi</option>
+			  {%for i in projeler%}
+			  <option value="{{i.id}}">{{i.adi}}</option>
+			  {%endfor%}
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Bloklar:</label>
+			<select class="form-control" id="bloklar" name="bloklar" >
+			  <option value="">Hepsi</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Daireler:</label>
+			<select class="form-control" id="daireler" name="daireler">
+			  <option value="">Hepsi</option>
+			  <option value="1">Satılıklar</option>
+			  <option value="2">Satılanlar</option>
+			  <option value="3">Rezerveler</option>
+			  <option value="4">Borcu olanlar</option>
+			</select>
+		</div>
+		
+		<label for="recipient-name" class="control-label">Detay Seçenekleri:</label>
+		<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="1" name="tckimlik" checked="">
+			T.C. Kimlik No
+		  </label>
+		</div>
+		<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="1" name="adsoyad" checked="">
+			Ad Soyad
+		  </label>
+		</div>
+		<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="1" name="telefon" checked="">
+			Telefon No
+		  </label>
+		</div>
+		<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="1" name="odenen" checked="">
+			Ödenen
+		  </label>
+		</div>
+		<div class="checkbox">
+		  <label>
+			<input type="checkbox" value="1" name="borc" checked="">
+			Borç
+		  </label>
+		</div>
+
+			<div class="modal-footer">
+     		<button type="submit" class="btn btn-primary">Oluştur</button>
+    		</div>
+		</form>
+	</div>
+
+
+ <script>  
+ $(document).ready(function(){  
+      $('#projeler').change(function(){  
+      	$('#bloklar').empty();
+           var proje_id = $(this).val();
+           console.log(proje_id);
+           if (proje_id==""){
+           	$("#bloklar").append("<option value="+"''"+">Hepsi</option>");
+           }
+           else{
+           	$.ajax({  
+                url:"/satis/rapor/ajaxblok",  
+                data:{proje_id:proje_id},  
+                success:function(data){
+                		$("#bloklar").append("<option value="+"''"+">Hepsi</option>");
+                		for (var key in data["bloklar"]){
+                			$("#bloklar").append("<option value='" + data["bloklar"][key]["id"] + "'>" + data["bloklar"][key]["adi"] + "</option>");
+                		}
+                	
+                	
+                     
+                }  
+           }); 
+           }
+            
+      });  
+ });  
+ </script>
+
+
+
+
+{% endblock %}
+
+

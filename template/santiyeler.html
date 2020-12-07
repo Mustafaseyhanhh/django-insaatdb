@@ -1,0 +1,104 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Şantiyeler</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#ekleModalSantiye" style="min-width:100%;">Ekle <i class="fa fa-plus"></i></button>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+{% if santiyeler %}
+<div class="row">
+{% for proje in santiyeler %}
+
+<div class="col-lg-6 col-12">
+<!-- small card -->
+<a href="/santiyeler/malzemeler/{{proje.id}}">
+	<div class="small-box bg-warning" style="padding:5px" >
+  	  <div class="inner">
+        <input class="hide" type="text" name="deger" value="id24" id="hide">
+  	    <h3 class="display-4" >{{ proje.adi }}</h3></a>
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#duzenleModal" onClick="reply_click(this.id,this.value)" id="{{proje.id}}" value="{{proje.adi}}">Düzenle <i class="fa fa-edit"></i></button>
+<a href="/santiyeler/malzemeler/{{proje.id}}">
+  	  </div>
+	  <div class="icon">
+	    <i class="fa fa-building-o"></i>
+	  </div>
+	</div>
+</a>
+</div>
+{% endfor %}
+</div>
+{% else %}
+    No athletes.
+{% endif %}
+<!-- Modal EKLE -->
+<div class="modal fade" id="ekleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Şantiye Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/santiyeler/eklefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <input class="form-control" type="text" placeholder="Proje Adı" name="pname" required="required" oninvalid="this.setCustomValidity('Şantiye adını kontrol ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DUZENLE -->
+<div class="modal fade" id="duzenleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Şantiye Düzenle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/santiyeler/duzenlefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <input class="hide" type="text" name="id" id="pid" value="" >
+          <input class="form-control" type="text" placeholder="Proje Adı" name="pname" id="pname" required="required" oninvalid="this.setCustomValidity('Şantiye adını kontrol ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button onclick="return confirm('Bu şantiyeyi silmek istediğinize emin misiniz ?')" type="submit" class="btn btn-danger" name="btsil" >Şantiyeyi Sil</button>
+          <button type="submit" class="btn btn-primary" name="btduzenle" >Düzenle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function reply_click(id,adi)
+{
+    document.getElementById("pid").value = id;
+    document.getElementById("pname").value = adi;
+}
+</script>
+
+{% endblock %}

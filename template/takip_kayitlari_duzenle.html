@@ -1,0 +1,99 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Arıza Kaydı Düzenle</h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+<div class="modal-body">
+	<div class="direct-chat-msg">
+	    <div class="direct-chat-text">
+	      Sorun : {{ariza.sorun}}
+	    </div>
+  	</div>
+  	<div class="direct-chat-msg">
+	    <div class="direct-chat-text">
+	      Çözüm : {{ariza.cozumnotu}}
+	    </div>
+  	</div>
+  	<div class="direct-chat-msg">
+	    <div class="direct-chat-text">
+	       {{ekleyen.adi}} tarafından {{ariza.eklenmetarihi}} tarihinde eklendi.
+	    </div>
+  	</div>
+  	<div class="direct-chat-msg">
+	    <div class="direct-chat-text">
+	       Son olarak {{guncelleyen.adi}} tarafından {{ariza.guncellenmetarihi}} tarihinde güncellendi.
+	    </div>
+  	</div>
+</div>
+<div class="modal-body">
+		<form action="/takip/duzenlefuc/{{ariza.id}}" method="post" enctype="multipart/form-data" id="pForm">
+		{% csrf_token %}
+		
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Projeler:</label>
+			<select class="form-control" id="projeler" name="projeler" disabled="">
+			  <option value="0">{{ariza.daireid.blokid.projeid.adi}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Blok:</label>
+			<select class="form-control" id="bloklar" name="bloklar" disabled="">
+			  <option value="0">{{ariza.daireid.blokid.adi}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Daire:</label>
+			<select class="form-control" id="daireler" name="daireler" disabled="">
+			  <option value="0">{{ariza.daireid.no}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Sorun:</label>
+			<textarea type="text" class="form-control" name="sorun" placeholder="Lütfen daire ile ilgili sorunu giriniz." required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">{{ariza.sorun}}</textarea>
+		</div>
+		<div class="form-group">
+			<label for="recipient-name" class="control-label">Çözüm Notu Ekle:</label>
+			<textarea type="text" class="form-control" name="cozumnotu" placeholder="Eklemek istediğiniz bir şey mi var? (İsteğe Bağlı)">{{ariza.cozumnotu}}</textarea>
+		</div>
+		<div class="card-footer bg-white">
+			{%if ariza.resim%}
+              <ul class="mailbox-attachments clearfix">
+              	<li>
+                  <span class="mailbox-attachment-icon has-img"><img src="{{ariza.resim.url}}" alt="Attachment"></span>
+
+                  <div class="mailbox-attachment-info">
+                    <a href="{{ariza.resim.url}}" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ariza.resim.name|length}}</a>
+                        <span class="mailbox-attachment-size">
+                          2.67 MB
+                          <a href="{{ariza.resim.url}}" class="btn btn-default btn-sm float-right"><i class="fa fa-cloud-download"></i></a>
+                          <a href="/takip/duzenlefuc/resimsil/{{ariza.id}}" class="btn btn-default btn-sm float-right"  onclick="return confirm('Bu resmi silmek istediğinize emin misiniz ?')"><i class="fa fa-remove" ></i></a>
+                        </span>
+                  </div>
+                </li>
+                {%else%}
+                 <div class="col-sm-4">
+					<h4>Fotoğraf Yükle</h4>
+						<input type="file" name="dosya" id="dosya">
+					<div id="onizleme" style="margin-top:10px;"></div>
+				</div>
+                {%endif%}
+              </ul>
+            </div>
+            <div class="modal-footer">
+          <a href="/takip/arizasil/{{ariza.id}}" role="button" class="btn btn-danger" onclick="return confirm('Bu arızayı silmek istediğinize emin misiniz ?')">Arızayı sil</a>
+          <a href="/takip/kayitlar" role="button" class="btn btn-secondary">Vazgeç</a>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+		</form>
+		</div>
+
+{% endblock %}

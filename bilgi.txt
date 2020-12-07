@@ -1,0 +1,2 @@
+Mysql user = root			password = linuxconfig.org
+Django superuser= muhendisbey		Password:MuhendisBEY726.

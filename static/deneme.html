@@ -1,0 +1,16 @@
+<div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Proje Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="projeler/ekle" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <input class="form-control" type="text" placeholder="Proje Adı" name="pname" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>

@@ -1,0 +1,224 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {    			
+	opacity: 0;				
+}
+.btn.active span.fa-check {				
+	opacity: 1;				
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Portföy Rapor</sup></h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+			<form method="get" action="/portfoy/rapor">{% csrf_token %}
+			
+				<div class="row">
+					<div class="col-md-12">
+				  
+					<div class="panel panel-info">
+
+							<div class="panel-body">
+								
+
+								<div class="form-group">
+									<div class="row">
+									  <label class="col-sm-2">Fiyat Aralığı:</label>
+									  <div class="col-sm-10">
+										<input type="text" class="form-control" name="maxFiyat" id="maxFiyat" placeholder="Max Fiyat" required="" autofocus="">
+									  </div>
+									</div>				
+								</div> <!-- /from-group-->
+									
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">İlçe:</label>
+										<div class="input-group col-sm-10">
+								          <select class="form-control " name="ilce">
+								          	<option value="hepsi">Hepsi</option>
+								            {%for i in ilce%}
+								          <option value="{{i}}">{{i}}</option>
+          									{%endfor%}
+								          </select>
+								        </div>
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Oda Sayısı:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+
+												
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="hepsi" style="display:none;">Hepsi
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="1" style="display:none;">1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="1+1" style="display:none;">1+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="2+1" style="display:none;">2+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="2+2" style="display:none;">2+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="3+1" style="display:none;">3+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="3+2" style="display:none;">3+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+1" style="display:none;">4+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+2" style="display:none;">4+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+3" style="display:none;">4+3
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="4+4" style="display:none;">4+4
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+1" style="display:none;">5+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+2" style="display:none;">5+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+3" style="display:none;">5+3
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="5+4" style="display:none;">5+4
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+1" style="display:none;">6+1
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+2" style="display:none;">6+2
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="odasayisi" value="6+3" style="display:none;">6+3
+													<span class="fa fa-check "></span>
+												</label>
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Emlak Türü:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="hepsi" style="display:none;">Hepsi
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Daire" style="display:none;">Daire
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Residence" style="display:none;">Residence
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Villa" style="display:none;">Villa
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="Bina" style="display:none;">Bina
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="emlakturu" value="İş Yeri" style="display:none;">İş Yeri
+													<span class="fa fa-check "></span>
+												</label>
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->							
+
+								<div class="form-group">
+									<div class="row">
+										<label class="col-sm-2">Satın Alma Türü:</label>
+										<div class="col-sm-10">
+											<div class="btn-group" style="display: inline-table;" data-toggle="buttons">
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="satinalma" value="hepsi" style="display:none;">Hepsi
+													<span class="fa fa-check "></span>
+												</label>
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="satinalma" value="1" style="display:none;">Yatırımlık
+													<span class="fa fa-check "></span>
+												</label>	
+												<label class="btn btn-default">
+													<input type="checkbox" autocomplete="off" name="satinalma" value="2" style="display:none;">İkamet
+													<span class="fa fa-check "></span>
+												</label>
+												
+												
+											</div>
+										</div>
+									</div>
+								</div> <!-- /from-group-->		
+								
+							</div>
+						</div><!--/panel panel-info-->
+					
+					</div>
+				</div><!--/row-->
+				<div class="modal-footer">
+				<a href="/portfoy" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         		<button type="submit" class="btn btn-primary">Oluştur</button>
+        </div>
+			</form>
+		<div id="cevap"></div>
+		</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

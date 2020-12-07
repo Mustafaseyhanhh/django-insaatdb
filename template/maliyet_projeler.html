@@ -1,0 +1,136 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Maliyet Projeler</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#ekleModal" style="min-width:100%;">Ekle <i class="fa fa-plus"></i></button>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="col-lg-12">
+<div class="card">
+              <div class="card-header no-border">
+                <h3 class="card-title">Kayıtlar</h3>
+                
+              </div>
+              <div class="card-body p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                  <tr>
+                    <th>Proje Adı</th>
+                    <th>Reel Maliyet</th>
+                    <th>Detay</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {%for rec in record%}
+                  <tr>
+                    <td>
+                      
+                      {{rec.projeadi.adi}}
+                    </td>
+                    <td>
+                      {{rec.reelmaliyet}} TL
+                    </td>
+                    <td>
+                      <a href="/maliyet/projeler/{{rec.projeadi.id}}/kategoriler" class="text-muted">
+                        <i class="fa fa-search"></i>
+                      </a> |
+                      <a href="#" onclick="reply_click(this.id,{{rec.reelmaliyet}})" id="{{rec.id}}" value="" data-toggle="modal" data-target="#duzenleModal" class="text-muted">
+                        <i class="fa fa-edit"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  {%endfor%}
+                 
+                 
+                 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+</div>
+
+<!-- Modal EKLE -->
+<div class="modal fade" id="ekleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Proje Maliyeti Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/maliyet/projeler/eklefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <div class="input-group">
+              <select class="form-control " name="proje">
+                <option value="">Proje Seçiniz</option>
+                {%for i in projeler%}
+              <option value="{{i.id}}">{{i.adi}}</option>
+                {%endfor%}
+              </select>
+            </div>
+            <br>
+            <input class="form-control" type="text" placeholder="Maliyet" name="maliyet" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DUZENLE -->
+<div class="modal fade" id="duzenleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Proje Maliyeti Düzenle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/maliyet/projeler/duzenlefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <input class="hide" type="text" name="id" id="pid" value="" >
+          <input class="form-control" type="text" placeholder="Proje Adı" name="proje" id="pname" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button onclick="return confirm('Bu proje maliyetini silmek istediğinize emin misiniz ?')" type="submit" class="btn btn-danger" name="btsil" >Maliyeti Sil</button>
+          <button type="submit" class="btn btn-primary" name="btduzenle" >Düzenle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function reply_click(id,adi)
+{
+  console.log(id,adi);
+    document.getElementById("pid").value = id;
+    document.getElementById("pname").value = adi;
+}
+</script>
+
+{% endblock %}

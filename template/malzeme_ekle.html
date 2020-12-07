@@ -1,0 +1,115 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<style>
+.btn span.fa-check {          
+  opacity: 0;       
+}
+.btn.active span.fa-check {       
+  opacity: 1;       
+}
+</style>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Malzeme Ekle </h1>
+      </div><!-- /.col -->
+ 
+  </div><!-- /.container-fluid -->
+</div>
+</div>
+
+<div class="modal-body">
+    
+
+
+      <form method="POST" action="/santiyeler/malzemeler/giris/eklefuc">{% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Şantiye:</label>
+          <select class="form-control" id="santiyeid" name="santiyeid">          
+            {%for i in santiyeler%}
+            <option value="{{i.id}}">{{i.adi}}</option>
+            {%endfor%}
+          </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Tarih:</label>
+          <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datepickertop" name="tarih" placeholder="Tarih" value="13/01/2019">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+          </div>   
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">Fatura No:</label>
+          <input type="text" class="form-control" id="faturano" name="faturano" placeholder="Fatura Numarası" maxlength="50">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+          <label for="recipient-name" class="control-label">İrsaliye No:</label>
+          <input type="text" class="form-control " id="irsaliyeno" name="irsaliyeno" placeholder="İrsaliye Numarası" maxlength="50">
+          </div>
+        </div>
+      </div>
+        <div class="form-group">
+        <label for="recipient-name" class="control-label">Tedarikçi:</label>
+        <input type="text" class="form-control " id="tedarikci" name="tedarikci" placeholder="Tedarikçi Firma">
+        </div>
+        <div id="malzemeler">
+          <div class="row" id="a" >
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Malzeme Adı:</label>
+            <input type="text" class="form-control " id="malzemeadi" name="malzemeadi" placeholder="Malzeme Adı" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+            </div>
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Malzeme Miktarı:</label>
+            <input type="text" class="form-control " id="malzememiktari" name="malzememiktari" placeholder="Malzeme Miktarı" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı boş bırakmayınız')"  oninput="setCustomValidity('')">
+            </div>
+            <div class="form-group col-sm-4">
+            <label for="recipient-name" class="control-label">Türü</label>
+            <select class="form-control" id="malzememiktari2" name="malzememiktari2">
+              {%for i in turu%}
+              <option value="{{i}}">{{i}}</option>
+              {%endfor%}
+            </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+        <button type="button" onclick="duplicate()" class="btn btn-primary">Ek Malzeme</button>
+        <a href="/santiyeler/malzemeler" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+
+
+<script type="text/javascript">
+var i = 0;
+var original = document.getElementById('a');
+
+function duplicate() {
+    var clone = original.cloneNode(true); // "deep" clone
+    clone.id = "a" + ++i;
+    // or clone.id = ""; if the divs don't need an ID
+    original.parentNode.appendChild(clone);
+}
+</script>
+
+
+
+
+
+{% endblock %}

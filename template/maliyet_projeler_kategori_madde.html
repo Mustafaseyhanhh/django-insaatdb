@@ -1,0 +1,199 @@
+{% extends 'default_page.html' %}
+{%load staticfiles %}
+{% load poll_extras %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Maliyet Maddeler <sup style="font-size: 18px"> {{proje.adi}}</sup></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#ekleModal" style="min-width:100%;">Ekle <i class="fa fa-plus"></i></button>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+<div class="row">
+<div class="card card-danger col-xl-12">
+              <div class="card-header">
+                <h3 class="card-title">Maliyet Kayıtları</h3> 
+                              
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    <th>#</th>
+                    <th>Madde</th>
+                    <th>Birim Fiyatı</th>
+                    <th>Adet</th>
+                    <th>Bedel</th>
+                    <th>Hakkında</th>
+                    <th>Ekleyen</th>
+                    <th>Düzenle</th>
+                    
+                  </tr>
+                  {%for rec in kayitlar%}
+                  <tr>
+                    <td>
+                      
+                      {{ forloop.counter }}
+                    </td>
+                    <td>
+                      {{rec.maddeid.adi}} 
+                    </td>
+                    <td>
+                      {{rec.birimfiyat}} TL
+                    </td>
+                    <td>
+                      {{rec.adet|floatformat:0}}
+                    </td>
+                    <td>
+                      {{rec.birimfiyat|multiply:rec.adet|floatformat:1}} TL
+                    </td>
+                    <td>
+                      {{rec.hakkinda}}
+                    </td>
+                    <td>
+                      {{rec.ekleyen.adi}}
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <a href="/maliyet/projeler/{{proje.id}}/kategoriler/kayitsil/{{rec.id}}" role="button" class="btn btn-danger btn-flat" onclick="return confirm('Bu portföy kişisini silmek istediğinize emin misiniz ?')"><i class="fa fa-remove"></i></a>
+                      </div>
+                    </td>
+
+
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+<div class="card card-info col-xl-12">
+              <div class="card-header">
+                <h3 class="card-title">Yeni Maliyet Girişi</h3> 
+                              
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    <th>Madde</th>
+                    <th>Birim Fiyatı</th>
+                    <th>Adet</th>
+                    <th>Hakkında</th>
+                    <th>Ekle</th>
+                    <th>Düzenle</th>
+                  </tr>
+                  {%for rec in maddeler%}
+                  <tr>
+                    <form action="/maliyet/projeler/{{proje.id}}/kategoriler/{{kategori.id}}/kayit/{{rec.id}}" method="post">{% csrf_token %}
+                    <td>
+                      
+                      {{rec.adi}}
+                    </td>
+                    <td>
+                      <input class="form-control form-control-sm" name="birimfiyat" type="text" placeholder="Birim Fiyatı" required="">
+                    </td>
+                    <td>
+                      <input class="form-control form-control-sm" name="adet" type="text" placeholder="Adet" required="">
+                    </td>
+                    <td>
+                      <input class="form-control form-control-sm" name="hakkinda" type="text" placeholder="Hakkında">
+                    </td>
+                    <td>
+                      <button type="submit" href="xxx" class="btn btn-block btn-warning btn-flat">Ekle <i class="fa fa-save"></i></button>
+                    </td>
+                  </form>
+                    <td>
+                      
+                      <a href="#" onclick="reply_click(this.id,this.name)" id="{{rec.id}}" name="{{rec.adi}}" data-toggle="modal" data-target="#duzenleModal" class="text-muted">
+                        <i class="fa fa-edit"></i>
+                      </a>
+                    </td>
+
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+</div>
+
+<!-- Modal EKLE -->
+<div class="modal fade" id="ekleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Madde Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/maliyet/projeler/{{proje.id}}/kategoriler/{{kategori.id}}/maddeeklefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+            <input class="form-control" type="text" placeholder="Madde adı" name="madde" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DUZENLE -->
+<div class="modal fade" id="duzenleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Kategori Düzenle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/maliyet/projeler/{{proje.id}}/kategoriler/{{kategori.id}}/maddesilfuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+          <input class="hide" type="text" name="id" id="pid" value="" >
+          <input class="form-control" type="text" placeholder="Proje Adı" name="madde" id="pname" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')"
+ oninput="setCustomValidity('')">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button onclick="return confirm('Bu proje maliyetini silmek istediğinize emin misiniz ?')" type="submit" class="btn btn-danger" name="btsil" >Maliyeti Sil</button>
+          <button type="submit" class="btn btn-primary" name="btduzenle" >Düzenle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function reply_click(id,adi)
+{
+  console.log(id,adi);
+    document.getElementById("pid").value = id;
+    document.getElementById("pname").value = adi;
+}
+</script>
+
+<script type="text/javascript">
+function DoNav(url)
+{
+   document.location.href = url;
+onclick="DoNav('http://stackoverflow.com/')"
+}
+</script>
+{% endblock %}

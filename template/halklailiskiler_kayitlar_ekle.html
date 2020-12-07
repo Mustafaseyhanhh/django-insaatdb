@@ -1,0 +1,88 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+
+
+<div class="content-header">
+   <div class="container-fluid">
+      <div class="row mb-2">
+         <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Kayıt Ekle</h1>
+         </div>
+         <!-- /.col -->
+         <div class="col-sm-6 buttonmobile">
+            <ol class="breadcrumb float-sm-right">
+            </ol>
+         </div>
+         <!-- /.col -->
+      </div>
+      <!-- /.row -->
+   </div>
+   <!-- /.container-fluid -->
+</div>
+<div class="modal-body">
+   <form action="/halklailiskiler/kayiteklefuc" method="post">
+      {% csrf_token %}
+      <div class="row">
+      <div class="form-group col-md-6">
+        <label for="recipient-name" class="control-label">Tarih:</label>
+            <div class="input-group date" data-provide="datepicker">
+               <input  type="text" class="form-control" autocomplete="off" id="datepickertop" name="tarih" placeholder="Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+               <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-th"></span>
+               </div>
+            </div>
+      </div>      
+      <div class="form-group col-md-3 col-6">
+        <label for="recipient-name" class="control-label">Saat:</label>
+        <div class="input-group">
+          <select class="form-control" name="sel1">
+            {% for i in "xxxxxxxxxxxxxxxxxxxxxxx" %}
+          <option value="{%if forloop.counter0 <= 9%}0{%endif%}{{forloop.counter0}}">{%if forloop.counter0 <= 9%}0{%endif%}{{forloop.counter0}}</option>
+          {%endfor%}
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-md-3 col-6">
+        <label for="recipient-name" class="control-label">Dakika:</label>
+        <div class="input-group">
+          <select class="form-control" name="sel2">
+            {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+          <option value="{%if forloop.counter0 <= 9%}0{%endif%}{{forloop.counter0}}">{%if forloop.counter0 <= 9%}0{%endif%}{{forloop.counter0}}</option>
+          {%endfor%}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="recipient-name" class="control-label">Gelen Kişi:</label>
+        <input type="text" class="form-control " id="gelen" name="gelen" placeholder="Gelen Kişi" maxlength="50" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="recipient-name" class="control-label">Görüştüğü Kişi:</label>
+        <input type="text" class="form-control " id="gorustugu" name="gorustugu" placeholder="Görüştüğü Kişi" maxlength="50">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="recipient-name" class="control-label">Arayan:</label>
+        <input type="text" class="form-control " id="arayan" name="arayan" placeholder="Arayan" maxlength="50">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="recipient-name" class="control-label">Telefon:</label>
+        <input type="text" class="form-control " id="telefon" name="telefon" placeholder="Telefon" maxlength="17">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="recipient-name" class="control-label">Konu:</label>
+      <textarea type="text" class="form-control" id="konu" name="konu" placeholder="Konu" maxlength="100"></textarea>
+    </div>
+      <div class="modal-footer">
+         <a href="/halklailiskiler/kayitlar" role="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</a>
+         <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+   </form>
+</div>
+
+
+{% endblock %}

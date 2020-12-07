@@ -1,0 +1,162 @@
+{% extends 'default_page.html' %}
+{% load poll_extras %}
+{%load staticfiles %}
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Kat Mülkiyeti</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 buttonmobile">
+        <ol class="breadcrumb float-sm-right">
+         <div class="btn-group" style="min-width:100%;">
+                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#ekleModal" style="min-width:100%;">Ekle <i class="fa fa-plus"></i></button>
+                      </div>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Kayıtlar</h3> 
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>               
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody><tr>
+                    <th>Proje Adı</th>
+                    <th>Açıklama</th>
+                    <th>Ekleyen</th>
+                    <th>Tarih</th>
+                    <th>İşlem</th>
+                  </tr>
+                  {%for rec in record%}
+                  <tr>
+                    <td>{{rec.projeadi}}</td>
+                    <td>{{rec.aciklama}}</td>
+                    <td>{{rec.ekleyen.adi}}</td>
+                    <td>{{rec.tarih}}</td>
+                    <td>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#duzenleModal" name="{{rec.projeadi}},{{rec.aciklama}},{{rec.tarih}},{{rec.id}}" onClick="reply_click(this.name)"><i class="fa fa-edit"></i></button>
+                        <a href="/tapusicil/katmulkiyeti/kayitlar/silfuc/{{rec.id}}" role="button" class="btn btn-danger btn-flat" onclick="return confirm('Bu işlemi silmek istediğinize emin misiniz ?')"><i class="fa fa-remove"></i></a>
+                      </div>
+                    </td>
+                  </tr>         
+                  {%endfor%}
+                  
+                </tbody></table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+</div>
+
+
+
+
+<!-- Modal EKLE Santiye -->
+<div class="modal fade" id="ekleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Proje Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/tapusicil/katmulkiyeti/kayitlar/eklefuc" method="post">{% csrf_token %} 
+        <div class="modal-body">
+    
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Proje Adı:</label>
+            <input type="text" class="form-control " name="projeadi" placeholder="Proje Adı" maxlength="50" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')" oninput="setCustomValidity('')">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Tarih:</label>
+            <div class="input-group date" data-provide="datepicker">
+                <input type="text" class="form-control" id="datepickertop" name="tarih" placeholder="Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+          </div>
+          <label for="recipient-name" class="control-label">Açıklama:</label>
+          <textarea type="text" class="form-control" name="aciklama" placeholder="Açıklama"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DUZENLE -->
+<div class="modal fade" id="duzenleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yeni Proje Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/tapusicil/katmulkiyeti/kayitlar/duzenlefuc" method="post">{% csrf_token %} 
+        <input class="hide" type="text" name="hide" value="id24" id="hide">
+        <div class="modal-body">
+    
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Proje Adı:</label>
+            <input type="text" class="form-control " id="projeadi" name="projeadi" placeholder="Proje Adı" maxlength="50" required="required" oninvalid="this.setCustomValidity('Proje Adını Kontrol Ediniz')" oninput="setCustomValidity('')">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Tarih:</label>
+            <div class="input-group date" data-provide="datepicker">
+                <input type="text" class="form-control" id="tarih" name="tarih" placeholder="Tarih"  required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" >
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+          </div>
+          <label for="recipient-name" class="control-label">Açıklama:</label>
+          <textarea type="text" class="form-control" id="aciklama" name="aciklama" placeholder="Açıklama" required="" oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')"  oninput="setCustomValidity('')" ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function reply_click(arrayy)
+{
+    var res = arrayy.split(",");
+    document.getElementById("projeadi").value = res[0];
+    document.getElementById("aciklama").value = res[1];
+    document.getElementById("tarih").value = res[2];
+    document.getElementById("hide").value = res[3];
+}
+</script>
+
+
+{% endblock %}
